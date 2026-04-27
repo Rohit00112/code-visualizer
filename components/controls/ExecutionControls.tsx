@@ -98,7 +98,10 @@ export function ExecutionControls() {
           value={[currentStep]}
           max={snapshots.length - 1}
           step={1}
-          onValueChange={([val]) => jumpToStep(val)}
+          onValueChange={(val) => {
+            const step = Array.isArray(val) ? val[0] : val;
+            jumpToStep(step);
+          }}
           className="cursor-pointer"
         />
         <span className="text-sm font-mono min-w-[80px] text-right">

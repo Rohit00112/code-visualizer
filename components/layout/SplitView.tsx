@@ -14,33 +14,37 @@ interface SplitViewProps {
 }
 
 export function SplitView({ left, right, bottom }: SplitViewProps) {
+  const Group = ResizablePanelGroup as any;
+  const Panel = ResizablePanel as any;
+  const Handle = ResizableHandle as any;
+
   return (
-    <ResizablePanelGroup direction="vertical" className="min-h-screen w-full">
-      <ResizablePanel defaultSize={75}>
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={50} minSize={30}>
+    <Group direction="vertical" className="min-h-screen w-full">
+      <Panel defaultSize={75}>
+        <Group direction="horizontal">
+          <Panel defaultSize={50} minSize={30}>
             <div className="flex h-full items-center justify-center p-0">
               {left}
             </div>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={50} minSize={30}>
+          </Panel>
+          <Handle withHandle />
+          <Panel defaultSize={50} minSize={30}>
             <div className="flex h-full p-0">
               {right}
             </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </ResizablePanel>
+          </Panel>
+        </Group>
+      </Panel>
       {bottom && (
         <>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={25} minSize={10}>
+          <Handle withHandle />
+          <Panel defaultSize={25} minSize={10}>
             <div className="flex h-full p-0">
               {bottom}
             </div>
-          </ResizablePanel>
+          </Panel>
         </>
       )}
-    </ResizablePanelGroup>
+    </Group>
   );
 }

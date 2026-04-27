@@ -11,7 +11,7 @@ import { StepExplainer } from "@/components/ai/StepExplainer";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Terminal, Box, Layers, Play, SkipBack, SkipForward, RotateCcw } from "lucide-react";
+import { Terminal, Box, Layers, Play, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const DEFAULT_CODE = `// Welcome to Code Visualizer
