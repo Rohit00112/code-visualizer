@@ -42,7 +42,7 @@ export function CodeEditor({ code, onChange, activeLine }: CodeEditorProps) {
             range: { startLineNumber: activeLine, startColumn: 1, endLineNumber: activeLine, endColumn: 1 },
             options: {
               isWholeLine: true,
-              className: "bg-primary/20 border-l-4 border-primary",
+              className: "active-line-highlight",
               glyphMarginClassName: "active-line-glyph",
             },
           },

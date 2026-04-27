@@ -128,3 +128,13 @@
     @apply font-sans;
   }
 }
+.active-line-highlight {
+  background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+  border-left: 4px solid var(--primary);
+}
+
+.active-line-glyph {
+  width: 4px !important;
+  background-color: var(--primary);
+  margin-left: 6px;
+}

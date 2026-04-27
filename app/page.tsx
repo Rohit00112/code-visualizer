@@ -2,7 +2,11 @@
 
 import { SplitView } from "@/components/layout/SplitView";
 import { CodeEditor } from "@/components/editor/CodeEditor";
-import { useState } from "react";
+import { useExecutionStore } from "@/store/useExecutionStore";
+import { ExecutionControls } from "@/components/controls/ExecutionControls";
+import { VariablesPanel } from "@/components/visualizer/VariablesPanel";
+import { CallStackPanel } from "@/components/visualizer/CallStackPanel";
+import { ConsolePanel } from "@/components/visualizer/ConsolePanel";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,8 +31,18 @@ for (let i = 0; i < 3; i++) {
 `;
 
 export default function Home() {
-  const [code, setCode] = useState(DEFAULT_CODE);
-  const [activeLine, setActiveLine] = useState(0);
+  const { 
+    code, 
+    setCode, 
+    runTrace, 
+    snapshots, 
+    currentStep, 
+    reset,
+    isRunning 
+  } = useExecutionStore();
+
+  const activeSnapshot = currentStep >= 0 ? snapshots[currentStep] : null;
+  const activeLine = activeSnapshot?.line || 0;
 
   return (
     <main className="flex h-screen flex-col bg-background overflow-hidden">
@@ -42,11 +56,15 @@ export default function Home() {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={reset}>
             <RotateCcw className="mr-2 h-4 w-4" />
             Reset
           </Button>
-          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+          <Button 
+            size="sm" 
+            className="bg-green-600 hover:bg-green-700 text-white"
+            onClick={runTrace}
+          >
             <Play className="mr-2 h-4 w-4 fill-current" />
             Run Tracing
           </Button>
@@ -80,67 +98,24 @@ export default function Home() {
                 </div>
                 
                 <TabsContent value="variables" className="flex-1 p-0 m-0 overflow-hidden">
-                  <ScrollArea className="h-full p-4">
-                    <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Variables will appear here during execution.</p>
-                      {/* Placeholder for variable tree */}
-                    </div>
-                  </ScrollArea>
+                  <VariablesPanel />
                 </TabsContent>
                 
                 <TabsContent value="stack" className="flex-1 p-0 m-0 overflow-hidden">
-                  <ScrollArea className="h-full p-4">
-                    <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Call stack will appear here during execution.</p>
-                      {/* Placeholder for call stack */}
-                    </div>
-                  </ScrollArea>
+                  <CallStackPanel />
                 </TabsContent>
               </Tabs>
             </div>
           }
           bottom={
-            <div className="flex h-full w-full flex-col bg-card">
-              <div className="flex items-center gap-2 border-b px-4 py-2 text-sm font-medium">
-                <Terminal className="h-4 w-4" />
-                Console
-              </div>
-              <ScrollArea className="flex-1 p-4 font-mono text-sm">
-                <div className="text-muted-foreground italic">No output yet. Run the code to see results.</div>
-              </ScrollArea>
-            </div>
+            <ConsolePanel />
           }
         />
       </div>
 
       {/* Footer / Controls */}
       <footer className="border-t bg-card px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <SkipBack className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <SkipForward className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="text-sm font-medium">
-              Step 0 / 0
-            </div>
-          </div>
-          
-          <div className="flex-1 max-w-2xl px-8">
-            {/* Timeline Slider Placeholder */}
-            <div className="h-2 w-full bg-muted rounded-full relative">
-              <div className="absolute top-1/2 left-0 -translate-y-1/2 h-4 w-4 bg-primary rounded-full border-2 border-background shadow-sm" />
-            </div>
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            JavaScript (ES5 Sandbox)
-          </div>
-        </div>
+        <ExecutionControls />
       </footer>
     </main>
   );
