@@ -7,6 +7,7 @@ import { ExecutionControls } from "@/components/controls/ExecutionControls";
 import { VariablesPanel } from "@/components/visualizer/VariablesPanel";
 import { CallStackPanel } from "@/components/visualizer/CallStackPanel";
 import { ConsolePanel } from "@/components/visualizer/ConsolePanel";
+import { StepExplainer } from "@/components/ai/StepExplainer";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -98,7 +99,14 @@ export default function Home() {
                 </div>
                 
                 <TabsContent value="variables" className="flex-1 p-0 m-0 overflow-hidden">
-                  <VariablesPanel />
+                  <div className="flex h-full flex-col">
+                    <div className="flex-1 overflow-hidden">
+                      <VariablesPanel />
+                    </div>
+                    <div className="p-4 border-t bg-card/30">
+                      <StepExplainer />
+                    </div>
+                  </div>
                 </TabsContent>
                 
                 <TabsContent value="stack" className="flex-1 p-0 m-0 overflow-hidden">
