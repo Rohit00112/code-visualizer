@@ -6,6 +6,8 @@ interface ExecutionState {
   snapshots: ExecutionSnapshot[];
   currentStep: number;
   isRunning: boolean;
+  playbackSpeed: number;
+  setPlaybackSpeed: (speed: number) => void;
   
   // Actions
   setCode: (code: string) => void;
@@ -28,8 +30,10 @@ console.log("Factorial of 3 is:", result);
   snapshots: [],
   currentStep: -1,
   isRunning: false,
+  playbackSpeed: 500,
 
-  setCode: (code) => set({ code, snapshots: [], currentStep: -1 }),
+  setPlaybackSpeed: (speed) => set({ playbackSpeed: speed }),
+  setCode: (code) => set({ code, snapshots: [], currentStep: -1, isRunning: false }),
 
   runTrace: () => {
     const { code } = get();
